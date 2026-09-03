@@ -16,6 +16,7 @@ export class LeaderboardComponent implements OnInit {
   leaderboard = this.kartingService.leaderboard;
   cargando = this.kartingService.loading;
   error = this.kartingService.error;
+  activeSeason = this.kartingService.activeSeason;
 
   ngOnInit() {
     // Equivalente al useEffect(() => {}, []) de React
