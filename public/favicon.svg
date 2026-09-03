@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Fondo redondeado estilo badge F1 -->
+  <rect width="64" height="64" rx="14" fill="#15151e"/>
+  
+  <!-- Chasis y alerón en rojo oficial -->
+  <path d="M12 40 L16 34 L22 34 L25 40 Z" fill="#e10600"/>
+  <path d="M18 37 L46 37 L52 41 L14 41 Z" fill="#e10600"/>
+  <path d="M10 28 L16 28 L14 34 L8 34 Z" fill="#e10600"/> <!-- Alerón trasero -->
+
+  <!-- Ruedas slick -->
+  <rect x="12" y="38" width="10" height="12" rx="3" fill="#111118" stroke="#383842" stroke-width="2"/>
+  <rect x="42" y="38" width="10" height="12" rx="3" fill="#111118" stroke="#383842" stroke-width="2"/>
+
+  <!-- Piloto / Casco con visor -->
+  <circle cx="28" cy="27" r="7" fill="#f5f5f5"/>
+  <path d="M28 24 L34 26 L33 29 L28 29 Z" fill="#15151e"/> <!-- Visor -->
+
+  <!-- Volante y barra de dirección -->
+  <line x1="33" y1="31" x2="38" y2="35" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="36" y="31" width="3" height="6" rx="1.5" transform="rotate(25 36 31)" fill="#e10600"/>
+
+  <!-- Trompa / Paragolpes delantero -->
+  <path d="M46 39 L54 39 L56 42 L46 42 Z" fill="#ffffff"/>
+</svg>

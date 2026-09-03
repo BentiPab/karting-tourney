@@ -1,3 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
 
-@import 'tailwindcss';
+@theme {
+  --color-f1-red: #e10600;
+  --color-f1-dark: #15151e;
+  --color-f1-surface: #1f1f27;
+  --color-f1-card: #252530;
+  --color-f1-border: #383844;
+  --color-f1-gold: #ffb800;
+
+  --font-f1: "Titillium Web", sans-serif;
+}
+
+body {
+  background-color: var(--color-f1-dark);
+  color: #ffffff;
+  min-height: 100vh;
+  font-family: var(--font-f1);
+  background-image: radial-gradient(circle at 50% 0%, #29121a 0%, #15151e 70%);
+}

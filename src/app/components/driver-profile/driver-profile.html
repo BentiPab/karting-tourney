@@ -1,0 +1,96 @@
+  @if (loading()) {
+    <div class="text-center py-16 bg-f1-surface border border-f1-border rounded-sm">
+      <div class="inline-block w-8 h-8 border-4 border-f1-red border-t-transparent rounded-full animate-spin mb-4"></div>
+      <p class="font-bold tracking-widest text-xs text-gray-300 uppercase italic">Cargando Telemetría & Tiempos de vuelta...</p>
+    </div>
+  }
+
+
+  @if (error()) {
+    <div class="p-4 mb-6 bg-red-950/50 border-l-4 border-f1-red text-red-200 text-sm font-semibold uppercase">
+      {{ error() }}
+    </div>
+  }
+
+@if (!loading() && profileData(); as p ) {
+  <main class="max-w-5xl mx-auto p-4 md:p-8">
+    <!-- Header Piloto F1 -->
+    <div class="relative bg-f1-surface border-l-4 border-f1-red p-6 md:p-8 mb-8 overflow-hidden rounded-sm shadow-xl">
+      <span class="absolute -right-6 -bottom-8 text-9xl font-black italic text-white/5 select-none pointer-events-none">
+        #{{ p.number }}
+      </span>
+
+      <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
+        <div class="w-24 h-24 md:w-32 md:h-32 rounded-full bg-[#111118] border-2 border-f1-border overflow-hidden flex items-center justify-center shrink-0">
+          @if (p.avatar_url) {
+            <img [src]="p.avatar_url" [alt]="p.name" class="w-full h-full object-cover" referrerpolicy="no-referrer">
+          } @else {
+            <span class="font-black italic text-f1-red text-3xl">#{{ p.number }}</span>
+          }
+        </div>
+
+        <div>
+          <div class="flex items-center gap-3 mb-1">
+            <span class="bg-f1-red text-white text-[10px] font-black px-2 py-0.5 rounded-sm italic">NO. {{ p.number }}</span>
+            <span class="text-xs font-black tracking-widest text-f1-red uppercase">{{ p.nickname || 'INDEPENDENT' }}</span>
+          </div>
+          <h1 class="text-3xl md:text-5xl font-black italic uppercase text-white tracking-tighter">
+            {{ p.name }} {{p.surname}}
+          </h1>
+        </div>
+      </div>
+    </div>
+
+    <!-- Career / Season Stats Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mb-8 font-mono">
+      <div class="bg-f1-surface border border-f1-border p-4 rounded-sm text-center">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block font-sans">Pts</span>
+        <span class="text-2xl font-black text-white italic">{{ profileData().points }}</span>
+      </div>
+      <div class="bg-f1-surface border border-f1-border p-4 rounded-sm text-center">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block font-sans">Participaciones</span>
+        <span class="text-2xl font-black text-white italic">{{ profileData().participations }}</span>
+      </div>
+      <div class="bg-f1-surface border border-f1-border p-4 rounded-sm text-center">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block font-sans">Victorias</span>
+        <span class="text-2xl font-black text-f1-gold italic">{{ profileData().victories }}</span>
+      </div>
+      <div class="bg-f1-surface border border-f1-border p-4 rounded-sm text-center">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block font-sans">Podios</span>
+        <span class="text-2xl font-black text-white italic">{{ profileData().podiums }}</span>
+      </div>
+      <div class="bg-f1-surface border border-f1-border p-4 rounded-sm text-center">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block font-sans">Vuelta mas rapida</span>
+        <span class="text-2xl font-black text-purple-400 italic">"--:--:---"</span>
+      </div>
+      <div class="bg-f1-surface border border-f1-border p-4 rounded-sm text-center">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block font-sans">Mejor resultado</span>
+        <span class="text-2xl font-black text-emerald-400 italic">{{ profileData().bestPosition }}</span>
+      </div>
+    </div>
+
+    <!-- Race History Table -->
+    <div class="bg-f1-surface border border-f1-border rounded-sm overflow-hidden shadow-xl">
+      <div class="px-4 py-3 bg-[#111118] border-b border-f1-border text-xs font-black uppercase text-gray-300 italic">
+        Historial de Carreras
+      </div>
+      <div class="divide-y divide-f1-border/40">
+        @for (c of profileData().races; track c.race_id) {
+          <a [routerLink]="['/carreras', c.race_id]"
+       class="grid grid-cols-12 gap-2 items-center px-4 py-3 hover:bg-f1-card/60 transition-colors group cursor-pointer block">
+            <div class="col-span-2 font-black italic text-sm text-f1-gold">P{{ c.end_position }}</div>
+            <div class="col-span-6">
+              <span class="text-[10px] text-gray-400">{{ c.date | date:'mediumDate' }}</span>
+            </div>
+            <div class="col-span-4 text-right font-mono text-xs">
+              <span class="text-gray-300 block">{{  '--:--.---' }}</span>
+
+            </div>
+          </a>
+        }
+      </div>
+    </div>
+  </main>
+}
+
+
