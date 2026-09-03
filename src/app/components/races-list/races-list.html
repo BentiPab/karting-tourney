@@ -24,8 +24,12 @@
   }
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     @for (f of races(); track f.id) {
-      <a [routerLink]="['/carreras', f.id]"
-         class="bg-f1-surface border border-f1-border p-5 rounded-sm hover:border-f1-red transition-all flex items-center justify-between group shadow-lg">
+      @let isUpcoming = isFuture(f.date);
+      <a [routerLink]="isUpcoming ? null : ['/carreras', f.id]"
+         [class.pointer-events-none]="isUpcoming"
+         [class.opacity-60]="isUpcoming"
+         [class.hover:border-f1-red]="!isUpcoming"
+         class="bg-f1-surface border border-f1-border p-5 rounded-sm transition-all flex items-center justify-between group shadow-lg">
         <div>
           <div class="flex items-center gap-2 mb-1">
             <span class="bg-[#111118] border border-f1-border text-f1-red text-[10px] font-black px-2 py-0.5 rounded-sm">RONDA {{ f.id }}</span>
@@ -35,8 +39,16 @@
            {{f.circuitName}}
           </h2>
         </div>
-        <div class="text-f1-red font-black text-xl transform group-hover:translate-x-1 transition-transform">
-          →
+       <div>
+          @if (isUpcoming) {
+            <span class="bg-amber-500/10 border border-amber-500/40 text-amber-400 text-[10px] font-black uppercase px-2.5 py-1 rounded-sm tracking-wider">
+              Próximamente
+            </span>
+          } @else {
+            <div class="text-f1-red font-black text-xl transform group-hover:translate-x-1 transition-transform">
+              →
+            </div>
+          }
         </div>
       </a>
     }

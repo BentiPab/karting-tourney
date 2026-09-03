@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { KartingService } from '../../services/karting';
 
 @Component({
   selector: 'app-races-list',
   standalone: true,
-  imports: [CommonModule, RouterModule, DatePipe],
+  imports: [CommonModule, RouterModule],
   templateUrl: './races-list.html',
 })
 export class RacesListComponent {
@@ -16,4 +16,9 @@ export class RacesListComponent {
 
   loading = this.kartingService.loading;
   error = this.kartingService.error;
+
+  isFuture(dateString: string | Date): boolean {
+    if (!dateString) return false;
+    return new Date(dateString).getTime() > Date.now();
+  }
 }
