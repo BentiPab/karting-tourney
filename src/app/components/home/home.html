@@ -1,102 +1,173 @@
-<main class="max-w-6xl mx-auto p-4 md:p-8">
-  <!-- Hero Section F1 -->
-  <section class="relative bg-f1-surface border-l-4 border-f1-red p-6 md:p-12 mb-10 overflow-hidden shadow-2xl rounded-sm">
-    <div class="relative z-10">
-      <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-        <div class="flex items-center gap-3">
-          <span class="w-3 h-6 bg-f1-red inline-block transform -skew-x-12"></span>
-          <span class="text-xs font-black tracking-widest text-f1-red uppercase">Paddock Championship Hub</span>
-        </div>
-
-        <div class="flex items-center gap-2 bg-[#111118] p-1 border border-f1-border rounded-sm">
-          <span class="text-[10px] font-black uppercase text-gray-400 px-2">Temporada:</span>
-          @for (temp of seasons(); track temp) {
-            <button
-              (click)="changeSeason(temp)"
-              [class.bg-f1-red]="activeSeason() === temp"
-              [class.text-white]="activeSeason() === temp"
-              [class.text-gray-400]="activeSeason() !== temp"
-              class="px-3 py-1 text-xs font-black italic rounded-sm transition-all">
-              {{ temp }}
-            </button>
-          }
-        </div>
-      </div>
-
-      <h1 class="text-4xl md:text-7xl font-black italic tracking-tighter uppercase text-white mb-4">
-        Torneo <span class="text-f1-red">Sin Frenos</span>
-      </h1>
-      <p class="text-gray-400 max-w-xl text-sm md:text-base mb-6 font-semibold uppercase tracking-wider">
-        Telemetría oficial del campeonato, sectores de vuelta y clasificación de pilotos para la temporada {{ activeSeason() }}.
-      </p>
-
-      <!-- Quick Status Leader -->
-      @if (leaderboard().length > 0) {
-        <div class="inline-flex items-center gap-4 bg-[#111118]/80 border border-f1-border px-4 py-2 rounded-sm mb-6">
-          <span class="text-xs font-black text-f1-gold uppercase italic">Lider del campeonato:</span>
-          <span class="font-black italic text-white uppercase">{{ leaderboard()[0].name }}</span>
-          <span class="font-black italic text-white uppercase">"{{ leaderboard()[0].nickname }}"</span>
-          <span class="font-black italic text-white uppercase">{{ leaderboard()[0].surname }}</span>
-          <span class="text-xs font-mono font-bold text-gray-400">({{ leaderboard()[0].points }} PTS)</span>
-        </div>
-      }
-    </div>
-  </section>
-
-  <!-- Navigation Grid (Cards estilo Broadcast) -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <!-- Standings Card -->
-    <a routerLink="/tabla-posiciones"
-       class="group bg-f1-surface border border-f1-border p-6 hover:border-f1-red transition-all flex flex-col justify-between rounded-sm shadow-lg hover:-translate-y-1">
-      <div>
-        <div class="text-f1-red font-mono text-xs font-bold mb-2 uppercase">// Telemetría 01</div>
-        <h2 class="text-2xl font-black italic uppercase text-white mb-2 group-hover:text-f1-red transition-colors">
-          Posiciones
-        </h2>
-        <p class="text-xs text-gray-400 font-semibold uppercase tracking-wide leading-relaxed">
-          Tabla completa del campeonato de pilotos, desglose de puntos, recuento de podios y récords de victorias.
-        </p>
-      </div>
-      <div class="mt-6 flex items-center justify-between text-xs font-black uppercase text-white italic border-t border-f1-border pt-4">
-        <span>Ver tabla</span>
-        <span class="transform group-hover:translate-x-1 transition-transform text-f1-red">→</span>
-      </div>
-    </a>
-
-    <!-- Rounds Card -->
-    <a routerLink="/carreras"
-       class="group bg-f1-surface border border-f1-border p-6 hover:border-f1-red transition-all flex flex-col justify-between rounded-sm shadow-lg hover:-translate-y-1">
-      <div>
-        <div class="text-f1-red font-mono text-xs font-bold mb-2 uppercase">// Calendario 02</div>
-        <h2 class="text-2xl font-black italic uppercase text-white mb-2 group-hover:text-f1-red transition-colors">
-          Carreras
-        </h2>
-        <p class="text-xs text-gray-400 font-semibold uppercase tracking-wide leading-relaxed">
-          Clasificaciones carrera por carrera, mejores tiempos por vuelta e información del circuito.
-        </p>
-      </div>
-      <div class="mt-6 flex items-center justify-between text-xs font-black uppercase text-white italic border-t border-f1-border pt-4">
-        <span>Ver Carreras</span>
-        <span class="transform group-hover:translate-x-1 transition-transform text-f1-red">→</span>
-      </div>
-    </a>
-
-    <!-- Drivers Card -->
-    <a routerLink="/pilotos"
-       class="group bg-f1-surface border border-f1-border p-6 hover:border-f1-red transition-all flex flex-col justify-between rounded-sm shadow-lg hover:-translate-y-1">
-      <div>
-        <div class="text-f1-red font-mono text-xs font-bold mb-2 uppercase">// parrilla 03</div>
-        <h2 class="text-2xl font-black italic uppercase text-white mb-2 group-hover:text-f1-red transition-colors">
-          Pilotos & Paddock
-        </h2>
-        <p class="text-xs text-gray-400 font-semibold uppercase tracking-wide leading-relaxed">
-          Lista completa de la parrilla de salida, número participaciones, apodos de los pilotos y avatares.
-        </p>
-      </div>
-      <div class="mt-6 flex items-center justify-between text-xs font-black uppercase text-white italic border-t border-f1-border pt-4">
-        <span>Ver pilotos</span>
-        <span class="transform group-hover:translate-x-1 transition-transform text-f1-red">→</span>
-      </div>
-    </a>
+@if (loading()) {
+  <div class="text-center py-16 bg-f1-surface border border-f1-border rounded-sm">
+    <div
+      class="inline-block w-8 h-8 border-4 border-f1-red border-t-transparent rounded-full animate-spin mb-4"
+    ></div>
+    <p class="font-bold tracking-widest text-xs text-gray-300 uppercase italic">
+      Cargando Telemetría & Tiempos de vuelta...
+    </p>
   </div>
-</main>
+}
+
+<!-- Mensaje de Error -->
+@if (error()) {
+  <div
+    class="p-4 mb-6 bg-red-950/50 border-l-4 border-f1-red text-red-200 text-sm font-semibold uppercase"
+  >
+    {{ error() }}
+  </div>
+}
+
+@if (!loading() && !error()) {
+  <main class="max-w-6xl mx-auto p-4 md:p-8">
+    <!-- Hero Section F1 -->
+    <section
+      class="relative bg-f1-surface border-l-4 border-f1-red p-6 md:p-12 mb-10 overflow-hidden shadow-2xl rounded-sm"
+    >
+      <div class="relative z-10">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-3 h-6 bg-f1-red inline-block transform -skew-x-12"></span>
+            <span class="text-xs font-black tracking-widest text-f1-red uppercase"
+              >Paddock Championship Hub</span
+            >
+          </div>
+
+          <div class="flex items-center gap-2 bg-[#111118] p-1 border border-f1-border rounded-sm">
+            <span class="text-[10px] font-black uppercase text-gray-400 px-2">Temporada:</span>
+            @for (temp of seasons(); track temp) {
+              <button
+                (click)="changeSeason(temp)"
+                [class.bg-f1-red]="activeSeason() === temp"
+                [class.text-white]="activeSeason() === temp"
+                [class.text-gray-400]="activeSeason() !== temp"
+                class="px-3 py-1 text-xs font-black italic rounded-sm transition-all"
+              >
+                {{ temp }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <h1
+          class="text-4xl md:text-7xl font-black italic tracking-tighter uppercase text-white mb-4"
+        >
+          Torneo <span class="text-f1-red">Sin Frenos</span>
+        </h1>
+        <p
+          class="text-gray-400 max-w-xl text-sm md:text-base mb-6 font-semibold uppercase tracking-wider"
+        >
+          Telemetría oficial del campeonato, sectores de vuelta y clasificación de pilotos para la
+          temporada {{ activeSeason() }}.
+        </p>
+
+
+        @if (leaderboard().length > 0) {
+          <div class="w-full sm:w-auto inline-flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-3 bg-[#111118]/90 border border-f1-border p-3 sm:px-4 sm:py-2 rounded-sm mb-6">
+            <span class="text-[10px] sm:text-xs font-black text-f1-gold uppercase italic tracking-wider">
+              Líder del campeonato:
+            </span>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="font-black italic text-white text-sm sm:text-base uppercase">
+                {{ leaderboard()[0].name }}
+              </span>
+              <span class="font-black italic text-f1-red text-sm sm:text-base uppercase">
+                "{{ leaderboard()[0].nickname }}"
+              </span>
+              <span class="font-black italic text-white text-sm sm:text-base uppercase">
+                {{ leaderboard()[0].surname }}
+              </span>
+              <span class="text-xs font-mono font-bold text-gray-400 ml-1">
+                ({{ leaderboard()[0].points }} PTS)
+              </span>
+            </div>
+          </div>
+        }
+        </div>
+    </section>
+
+    <!-- Navigation Grid (Cards estilo Broadcast) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Standings Card -->
+      <a
+        routerLink="/tabla-posiciones"
+        class="group bg-f1-surface border border-f1-border p-6 hover:border-f1-red transition-all flex flex-col justify-between rounded-sm shadow-lg hover:-translate-y-1"
+      >
+        <div>
+          <div class="text-f1-red font-mono text-xs font-bold mb-2 uppercase">// Telemetría 01</div>
+          <h2
+            class="text-2xl font-black italic uppercase text-white mb-2 group-hover:text-f1-red transition-colors"
+          >
+            Posiciones
+          </h2>
+          <p class="text-xs text-gray-400 font-semibold uppercase tracking-wide leading-relaxed">
+            Tabla completa del campeonato de pilotos, desglose de puntos, recuento de podios y
+            récords de victorias.
+          </p>
+        </div>
+        <div
+          class="mt-6 flex items-center justify-between text-xs font-black uppercase text-white italic border-t border-f1-border pt-4"
+        >
+          <span>Ver tabla</span>
+          <span class="transform group-hover:translate-x-1 transition-transform text-f1-red"
+            >→</span
+          >
+        </div>
+      </a>
+
+      <!-- Rounds Card -->
+      <a
+        routerLink="/carreras"
+        class="group bg-f1-surface border border-f1-border p-6 hover:border-f1-red transition-all flex flex-col justify-between rounded-sm shadow-lg hover:-translate-y-1"
+      >
+        <div>
+          <div class="text-f1-red font-mono text-xs font-bold mb-2 uppercase">// Calendario 02</div>
+          <h2
+            class="text-2xl font-black italic uppercase text-white mb-2 group-hover:text-f1-red transition-colors"
+          >
+            Carreras
+          </h2>
+          <p class="text-xs text-gray-400 font-semibold uppercase tracking-wide leading-relaxed">
+            Clasificaciones carrera por carrera, mejores tiempos por vuelta e información del
+            circuito.
+          </p>
+        </div>
+        <div
+          class="mt-6 flex items-center justify-between text-xs font-black uppercase text-white italic border-t border-f1-border pt-4"
+        >
+          <span>Ver Carreras</span>
+          <span class="transform group-hover:translate-x-1 transition-transform text-f1-red"
+            >→</span
+          >
+        </div>
+      </a>
+
+      <!-- Drivers Card -->
+      <a
+        routerLink="/pilotos"
+        class="group bg-f1-surface border border-f1-border p-6 hover:border-f1-red transition-all flex flex-col justify-between rounded-sm shadow-lg hover:-translate-y-1"
+      >
+        <div>
+          <div class="text-f1-red font-mono text-xs font-bold mb-2 uppercase">// parrilla 03</div>
+          <h2
+            class="text-2xl font-black italic uppercase text-white mb-2 group-hover:text-f1-red transition-colors"
+          >
+            Pilotos & Paddock
+          </h2>
+          <p class="text-xs text-gray-400 font-semibold uppercase tracking-wide leading-relaxed">
+            Lista completa de la parrilla de salida, número participaciones, apodos de los pilotos y
+            avatares.
+          </p>
+        </div>
+        <div
+          class="mt-6 flex items-center justify-between text-xs font-black uppercase text-white italic border-t border-f1-border pt-4"
+        >
+          <span>Ver pilotos</span>
+          <span class="transform group-hover:translate-x-1 transition-transform text-f1-red"
+            >→</span
+          >
+        </div>
+      </a>
+    </div>
+  </main>
+}

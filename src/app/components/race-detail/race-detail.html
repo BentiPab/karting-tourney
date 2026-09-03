@@ -13,96 +13,105 @@
   }
 
 @if (race(); as c) {
-  <main class="max-w-5xl mx-auto p-4 md:p-8">
+  <main class="max-w-5xl mx-auto p-3 sm:p-4 md:p-8">
     <!-- Header Gran Premio -->
-    <div class="border-b-4 border-f1-red pb-4 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div class="border-b-4 border-f1-red pb-4 mb-6 flex flex-col md:flex-row md:items-end justify-between gap-2">
       <div>
         <a routerLink="/carreras" class="text-xs font-black uppercase text-f1-red hover:underline mb-2 inline-block">← Volver al Calendario</a>
         <div class="flex items-center gap-2 mb-1">
           <span class="text-xs font-black uppercase text-gray-400">Ronda {{ c.id }} // {{ c.season }}</span>
         </div>
         <h1 class="text-3xl md:text-5xl font-black italic uppercase text-white tracking-tighter">
-          {{c.circuitName}}
+          {{ c.circuitName }}
         </h1>
       </div>
       <span class="text-xs font-bold text-gray-400 uppercase">{{ c.date | date:'fullDate' }}</span>
     </div>
 
-    <!-- Highlights Banner (Winner & Fastest Lap) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <!-- Highlights Banner -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
       @if (c.winner) {
-        <div class="bg-f1-surface border-l-4 border-f1-gold p-4 rounded-sm flex items-center justify-between">
-          <div>
-            <span class="text-[10px] font-black uppercase text-f1-gold tracking-widest block">Ganador</span>
-            <span class="text-xl font-black italic uppercase text-white">#{{c.winner.number}} - {{ c.winner.name }} "{{c.winner.nickname}}" {{c.winner.surname}}</span>
+        <div class="bg-f1-surface border-l-4 border-f1-gold p-4 rounded-sm flex items-center justify-between gap-4">
+          <div class="min-w-0">
+            <span class="text-[10px] font-black uppercase text-f1-gold tracking-widest block mb-0.5">Ganador</span>
+            <div class="text-base sm:text-lg md:text-xl font-black italic uppercase text-white leading-tight break-words">
+              #{{ c.winner.number }} {{ c.winner.name }} <span class="text-f1-gold">"{{ c.winner.nickname }}"</span> {{ c.winner.surname }}
+            </div>
           </div>
-          <span class="text-2xl font-black italic text-f1-gold">P1</span>
+          <span class="text-2xl md:text-3xl font-black italic text-f1-gold shrink-0">P1</span>
         </div>
       }
-
-
     </div>
 
     <!-- Classification Table -->
     <div class="bg-f1-surface border border-f1-border rounded-sm overflow-hidden shadow-2xl">
-      <div class="grid grid-cols-12 gap-2 px-4 py-3 bg-[#111118] border-b border-f1-border text-[11px] font-black uppercase text-gray-400 italic">
-        <div class="col-span-1 text-center">No</div>
+      <!-- Encabezados -->
+      <div class="grid grid-cols-12 gap-1 sm:gap-2 px-3 sm:px-4 py-3 bg-[#111118] border-b border-f1-border text-[10px] sm:text-[11px] font-black uppercase text-gray-400 italic items-center">
         <div class="col-span-1 text-center">Pos</div>
-        <div class="col-span-1 text-center">+/-</div>
-        <div class="col-span-1 text-center">Pos Inicial</div>
-        <div class="col-span-4 overflow-hidden">Driver</div>
-        <div class="col-span-3 md:col-span-2 text-center">Best Lap</div>
-        <div class="col-span-1 text-right pr-2">Pts</div>
+        <div class="col-span-1 text-center font-mono">#</div>
+        <div class="hidden md:block md:col-span-1 text-center">+/-</div>
+        <div class="hidden md:block md:col-span-1 text-center">Grid</div>
+        <div class="col-span-6 md:col-span-4 pl-1">Driver</div>
+        <div class="col-span-3 md:col-span-3 text-center">Mejor Vuelta</div>
+        <div class="col-span-1 md:col-span-1 text-right pr-1">Pts</div>
       </div>
 
+      <!-- Filas -->
       <div class="divide-y divide-f1-border/40">
         @for (row of c.results; track row.id) {
           @let dif = row.start_position - row.end_position;
-          <div class="grid grid-cols-12 gap-2 items-center px-4 py-3 hover:bg-f1-card/60 transition-colors">
-                <div class="col-span-1 text-center font-mono font-bold text-xs text-gray-400">
-              #{{ row.number }}
-            </div>
-            <div class="col-span-1 text-center font-black italic text-base md:text-lg"
+          <div class="grid grid-cols-12 gap-1 sm:gap-2 items-center px-3 sm:px-4 py-2.5 hover:bg-f1-card/60 transition-colors">
+
+            <!-- Posición Final -->
+            <div class="col-span-1 text-center font-black italic text-sm sm:text-base md:text-lg"
                  [class.text-f1-gold]="row.end_position === 1"
                  [class.text-gray-300]="row.end_position === 2"
                  [class.text-amber-600]="row.end_position === 3"
                  [class.text-gray-500]="row.end_position > 3">
               {{ row.end_position }}
             </div>
-            <div class="col-span-1 flex items-center justify-center font-mono font-bold text-xs">
-        @if (dif > 0) {
-          <span class="text-emerald-400 flex items-center gap-0.5">
-            ▲{{ dif }}
-          </span>
-        } @else if (dif < 0) {
 
-          <span class="text-f1-red flex items-center gap-0.5">
-            ▼{{ -dif }}
-          </span>
-        } @else {
-          <span class="text-gray-500">-</span>
-        }
-      </div>
-             <div class="col-span-1 text-center font-black italic text-base md:text-lg"
-                 [class.text-f1-gold]="row.end_position === 1"
-                 [class.text-gray-300]="row.end_position === 2"
-                 [class.text-amber-600]="row.end_position === 3"
-                 [class.text-gray-500]="row.end_position > 3">
+            <!-- Número Kart -->
+            <div class="col-span-1 text-center font-mono font-bold text-[11px] sm:text-xs text-gray-400">
+              #{{ row.number }}
+            </div>
+
+            <!-- Diferencia +/- (Oculto en móvil) -->
+            <div class="hidden md:flex md:col-span-1 items-center justify-center font-mono font-bold text-xs">
+              @if (dif > 0) {
+                <span class="text-emerald-400 flex items-center">▲{{ dif }}</span>
+              } @else if (dif < 0) {
+                <span class="text-f1-red flex items-center">▼{{ -dif }}</span>
+              } @else {
+                <span class="text-gray-500">-</span>
+              }
+            </div>
+
+            <!-- Posición Inicial (Oculto en móvil) -->
+            <div class="hidden md:block md:col-span-1 text-center font-mono text-xs text-gray-400">
               {{ row.start_position }}
             </div>
 
-            <div class="col-span-4 overflow-hidden">
-              <a [routerLink]="['/pilotos', row.id]" class="font-black italic text-sm md:text-base uppercase text-white hover:text-f1-red transition-colors block">
-                {{ row.name }} {{row.surname}}
+            <!-- Piloto -->
+            <div class="col-span-6 md:col-span-4 min-w-0 pl-1">
+              <a [routerLink]="['/pilotos', row.id]" class="font-black italic text-xs sm:text-sm md:text-base uppercase text-white hover:text-f1-red transition-colors truncate block">
+                {{ row.name }} {{ row.surname }}
               </a>
-              <span class="text-[10px] font-bold text-gray-400 uppercase block">{{ row.nickname }}</span>
+              <div class="flex items-center gap-1.5 text-[9px] sm:text-[10px] text-gray-400 uppercase font-bold">
+                <span class="truncate">{{ row.nickname }}</span>
+                <!-- Info de largada compacta solo visible en móvil -->
+                <span class="md:hidden text-gray-500 font-mono">• P{{ row.start_position }}</span>
+              </div>
             </div>
-            <div class="col-span-3 md:col-span-2 text-center font-mono text-xs text-gray-300">
-              {{row.fastest_lap || '--:--.---' }}
 
+            <!-- Vuelta Rápida -->
+            <div class="col-span-3 md:col-span-3 text-center font-mono text-[10px] sm:text-xs text-gray-300">
+              {{ row.fastest_lap || '--:--.---' }}
             </div>
-            <div class="col-span-1 text-right">
-              <span class="inline-block bg-[#111118] border border-f1-border px-2.5 py-0.5 text-xs md:text-sm font-black italic text-white rounded-sm">
+
+            <!-- Puntos -->
+            <div class="col-span-1 md:col-span-1 text-right">
+              <span class="inline-block bg-[#111118] border border-f1-border px-1.5 sm:px-2 py-0.5 text-[11px] sm:text-xs md:text-sm font-black italic text-white rounded-sm">
                 {{ row.points }}
               </span>
             </div>

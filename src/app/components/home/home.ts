@@ -1,12 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { KartingService } from '../../services/karting';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './home.html',
 })
 export class HomeComponent implements OnInit {
@@ -17,6 +16,7 @@ export class HomeComponent implements OnInit {
   leaderboard = this.kartingService.leaderboard;
   races = this.kartingService.availableRaces;
   loading = this.kartingService.loading;
+  error = this.kartingService.error;
 
   ngOnInit() {
     if (this.kartingService.results.length === 0) {
