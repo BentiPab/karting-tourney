@@ -28,7 +28,9 @@ export interface DriverStats extends Driver {
 }
 
 export interface DriverRaceResult
-  extends Pick<RaceResult, 'end_position' | 'start_position' | 'fastest_lap'>, Driver {
+  extends
+    Pick<RaceResult, 'end_position' | 'start_position' | 'fastest_lap' | 'circuitName' | 'date'>,
+    Driver {
   points: number;
 }
 

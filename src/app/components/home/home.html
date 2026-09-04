@@ -62,27 +62,51 @@
         </p>
 
 
-        @if (leaderboard().length > 0) {
-          <div class="w-full sm:w-auto inline-flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-3 bg-[#111118]/90 border border-f1-border p-3 sm:px-4 sm:py-2 rounded-sm mb-6">
-            <span class="text-[10px] sm:text-xs font-black text-f1-gold uppercase italic tracking-wider">
-              Líder del campeonato:
-            </span>
-            <div class="flex flex-wrap items-center gap-1.5">
-              <span class="font-black italic text-white text-sm sm:text-base uppercase">
-                {{ leaderboard()[0].name }}
-              </span>
-              <span class="font-black italic text-f1-red text-sm sm:text-base uppercase">
-                "{{ leaderboard()[0].nickname }}"
-              </span>
-              <span class="font-black italic text-white text-sm sm:text-base uppercase">
-                {{ leaderboard()[0].surname }}
-              </span>
-              <span class="text-xs font-mono font-bold text-gray-400 ml-1">
-                ({{ leaderboard()[0].points }} PTS)
-              </span>
-            </div>
-          </div>
-        }
+ @if (leaderboard().length > 0) {
+  <div class="w-full flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-3 bg-[#111118]/90 border border-f1-border p-3 sm:px-4 sm:py-2.5 rounded-sm mb-3">
+    <span class="text-[10px] sm:text-xs font-black text-f1-gold uppercase italic tracking-wider shrink-0">
+      Líder del campeonato:
+    </span>
+    <div class="flex flex-wrap items-center gap-1.5">
+      <span class="font-black italic text-white text-sm sm:text-base uppercase">
+       #{{ leaderboard()[0].number }} - {{ leaderboard()[0].name }}
+      </span>
+      <span class="font-black italic text-f1-red text-sm sm:text-base uppercase">
+        "{{ leaderboard()[0].nickname }}"
+      </span>
+      <span class="font-black italic text-white text-sm sm:text-base uppercase">
+        {{ leaderboard()[0].surname }}
+      </span>
+      <span class="text-xs font-mono font-bold text-gray-400 ml-1">
+        ({{ leaderboard()[0].points }} PTS)
+      </span>
+    </div>
+  </div>
+}
+
+@if (seasonBestLap(); as lap) {
+  <div class="w-full flex flex-wrap items-center gap-2 bg-[#111118]/90 border border-f1-border p-3 sm:px-4 sm:py-2.5 rounded-sm mb-6 text-xs">
+    <div class="flex items-center gap-1.5 shrink-0">
+      <span class="w-1.5 h-3 bg-purple-500 inline-block transform -skew-x-12"></span>
+      <span class="font-black text-purple-400 uppercase italic tracking-wider">
+        Récord Vuelta:
+      </span>
+      <span class="font-mono font-bold text-white bg-purple-950/60 border border-purple-800/60 px-1.5 py-0.5 rounded-sm">
+        {{ lap.fastest_lap }}
+      </span>
+    </div>
+
+    <span class="font-black italic text-white uppercase">
+      #{{lap.number}} - {{ lap.name }}
+      <span class="text-f1-red">"{{ lap.nickname }}"</span>
+      {{ lap.surname }}
+    </span>
+
+    <span class="text-gray-400 font-semibold uppercase">
+      en {{ lap.circuitName }} • {{ lap.date | date:'dd/MM/yyyy' }}
+    </span>
+  </div>
+}
         </div>
     </section>
 

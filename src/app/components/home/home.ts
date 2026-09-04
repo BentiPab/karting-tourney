@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   races = this.kartingService.availableRaces;
   loading = this.kartingService.loading;
   error = this.kartingService.error;
+  seasonBestLap = this.kartingService.seasonBestLap;
 
   ngOnInit() {
     if (this.kartingService.results.length === 0) {

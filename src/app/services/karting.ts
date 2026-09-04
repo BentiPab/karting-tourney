@@ -92,7 +92,21 @@ export class KartingService {
     const year = this.activeSeason();
     return this.results().filter((r) => r.season === year);
   });
+  seasonBestLap = computed<DriverRaceResult | null>(() => {
+    const seasonRaces = this.seasonResults();
+    const bestTime = getBestFastestLap(seasonRaces);
+    const race = seasonRaces.find((sr) => sr.fastest_lap === bestTime);
 
+    const driver = this.drivers().find((d) => d.id === race?.driver_id);
+    if (!driver || !race) {
+      return null;
+    }
+    return {
+      ...driver,
+      ...race,
+      points: 0,
+    };
+  });
   leaderboard = computed<DriverStats[]>(() => {
     const pilotosList = this.drivers();
     const carreras = this.seasonResults();
