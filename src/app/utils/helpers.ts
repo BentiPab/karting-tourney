@@ -30,3 +30,22 @@ export const parseResult = (dto: RaceResultDTO): RaceResult => {
 export const getPositionsPoints = (pos: number) => {
   return POINTS_MAP[pos];
 };
+
+export function getBestFastestLap(races: { fastest_lap?: string }[]): string {
+  let bestTimeStr = '--:--.---';
+  let minSeconds = Infinity;
+
+  for (const race of races) {
+    const raw = race.fastest_lap?.trim();
+    if (!raw || raw === '--:--.---') continue;
+
+    const seconds = parseFloat(raw.replace(',', '.'));
+
+    if (!isNaN(seconds) && seconds > 0 && seconds < minSeconds) {
+      minSeconds = seconds;
+      bestTimeStr = raw;
+    }
+  }
+
+  return bestTimeStr;
+}

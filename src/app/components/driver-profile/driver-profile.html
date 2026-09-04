@@ -61,7 +61,7 @@
       </div>
       <div class="bg-f1-surface border border-f1-border p-4 rounded-sm text-center">
         <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block font-sans">Vuelta mas rapida</span>
-        <span class="text-2xl font-black text-purple-400 italic">"--:--:---"</span>
+        <span class="text-2xl font-black text-purple-400 italic">{{profileData().fastest_lap}}</span>
       </div>
       <div class="bg-f1-surface border border-f1-border p-4 rounded-sm text-center">
         <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest block font-sans">Mejor resultado</span>
@@ -83,7 +83,7 @@
               <span class="text-[10px] text-gray-400">{{ c.date | date:'mediumDate' }}</span>
             </div>
             <div class="col-span-4 text-right font-mono text-xs">
-              <span class="text-gray-300 block">{{  '--:--.---' }}</span>
+              <span class="text-gray-300 block">{{  c.fastest_lap }}</span>
 
             </div>
           </a>

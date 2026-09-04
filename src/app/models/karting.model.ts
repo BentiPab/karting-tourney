@@ -46,4 +46,5 @@ export interface RaceDetails extends RaceSummary {
 
 export interface DriverProfile extends DriverStats {
   races: RaceResult[];
+  fastest_lap?: string;
 }

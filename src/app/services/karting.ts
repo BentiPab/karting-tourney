@@ -13,7 +13,7 @@ import {
   RaceDetails,
   DriverProfile,
 } from '../models';
-import { getPositionsPoints, parsePilot, parseResult } from '../utils/helpers';
+import { getBestFastestLap, getPositionsPoints, parsePilot, parseResult } from '../utils/helpers';
 
 const F1_POINTS: Record<number, number> = {
   1: 25,
@@ -174,6 +174,7 @@ export class KartingService {
     let podiums = 0;
     let bestPosition = races.length > 0 ? 99 : 0;
     let poleStarts = 0;
+
     const participations = races.length;
 
     for (const r of races) {
@@ -197,6 +198,8 @@ export class KartingService {
       }
     }
 
+    const fastest_lap = getBestFastestLap(races);
+
     return {
       ...driver,
       participations,
@@ -206,6 +209,7 @@ export class KartingService {
       bestPosition,
       victories,
       races,
+      fastest_lap,
     };
   }
 
